@@ -1,7 +1,7 @@
 package org.scalalabs.basic.lab02
 
 import scala.collection.mutable.ListBuffer
- import sys._
+import sys._
 
 
 object ListManipulationExercise02 {
@@ -11,7 +11,7 @@ object ListManipulationExercise02 {
    * As usual, various ways exist: pattern matching, folding, ...
    */
   def maxElementInList(l: List[Int]): Int = {
-    error("fix me")
+    l.foldLeft(0)((a, b) => if (a < b) b else a)
   }
 
   /**
@@ -19,15 +19,27 @@ object ListManipulationExercise02 {
    * of the two list
    */
   def sumOfTwo(l1: List[Int], l2: List[Int]): List[Int] = {
-    error("fix me")
+    (l1, l2) match {
+      case (fl, Nil) => fl
+      case (Nil, sl) => sl
+      case (fl, sl) => fl zip sl map {case (a, b) => a + b}
+    }
   }
 
   /**
-   *  For this exercise preferably make use of the sumOfTwo
+   * For this exercise preferably make use of the sumOfTwo
    * method above
    */
   def sumOfMany(l: List[Int]*): List[Int] = {
-    error("fix me")
+
+    def sumOfManyNestedList(l: List[List[Int]]): List[Int] = {
+      l match {
+        case Nil => Nil
+        case head :: tail => sumOfTwo(head, sumOfManyNestedList(tail))
+      }
+    }
+
+    sumOfManyNestedList(l.toList)
   }
 
   case class Person(age: Int, firstName: String, lastName: String)
@@ -38,18 +50,18 @@ object ListManipulationExercise02 {
    * may be able to achieve the same functionality as implemented below
    * in a one-liner.
    */
-  def separateTheMenFromTheBoys(persons: List[Person]): List[List[String]] = {
+  def separateTheMenFromTheBoys2(persons: List[Person]): List[List[String]] = {
     var boys: ListBuffer[Person] = new ListBuffer[Person]()
     var men: ListBuffer[Person] = new ListBuffer[Person]()
     var validBoyNames: ListBuffer[String] = new ListBuffer[String]()
     var validMenNames: ListBuffer[String] = new ListBuffer[String]()
 
     for (person <- persons) {
-        if (person.age < 18) {
-          boys += person
-        } else {
-          men += person
-        }
+      if (person.age < 18) {
+        boys += person
+      } else {
+        men += person
+      }
     }
 
     var sortedBoys = boys.toList.sortBy(_.age)
@@ -62,6 +74,13 @@ object ListManipulationExercise02 {
       validMenNames += man.firstName
     }
     List(validBoyNames.toList, validMenNames.toList)
+  }
+
+  def separateTheMenFromTheBoys(persons: List[Person]): List[List[String]] = {
+
+    val (boys, men) = persons.partition(_.age < 18)
+    def sortByAgeAndMapToName(persons: List[Person]): List[String] = persons.sortBy(_.age).map(_.firstName)
+    List(sortByAgeAndMapToName(boys), sortByAgeAndMapToName(men))
   }
 
 }
