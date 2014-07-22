@@ -1,8 +1,10 @@
 package org.scalalabs.basic.lab02
+
 /**
  * This Lab contains exercises where the usage of
  * higher order collection methods can be rehearsed.
  */
+
 import sys._
 
 object CollectionExercise01 {
@@ -33,9 +35,21 @@ object CollectionExercise01 {
    *
    */
   def googleCodeJamGooglerese(lines: String*): Seq[String] = {
-    error("fix me")
+    //figure out missing chracter mapping
+    val input = "ejp mysljylc kd kxveddknmc re jsicpdrysi rbcpc ypc rtcsra dkh wyfrepkym veddknkmkrkcd de kr kd eoya kw aej tysr re ujdr lkgc jv " filterNot (_ == ' ')
+    val output = "our language is impossible to understand there are twenty six factorial possibilities so it is okay if you want to just give up" filterNot (_ == ' ')
+
+    //compute mapping
+    val initialMapping = (input zip output).toSet
+
+    println(initialMapping)
+    val mapper = Map('z' -> 'q', 'q' -> 'z', ' ' -> ' ').withDefaultValue('?') ++ initialMapping
+    println(mapper)
+
+    lines.map(_ map mapper)
   }
 }
+
 /*========================================================== */
 
 object CollectionExercise02 {
@@ -50,7 +64,11 @@ object CollectionExercise02 {
    * using a functional approach.
    */
   def groupAdultsPerAgeGroup(persons: Seq[Person]): Map[Int, Seq[Person]] = {
-    error("fix me")
+    persons
+      .filter(_.age >= 18)
+      .sortBy(_.name)
+      .groupBy(_.age / 10 * 10)
+
   }
 }
 
@@ -65,9 +83,10 @@ object CollectionExercise03 {
    * checkValuesIncrease(Seq(1,2,2)) == false
    */
   def checkValuesIncrease[T <% Ordered[T]](seq: Seq[T]): Boolean =
-    error("fix me")
+    if (seq.size > 1) seq.sliding(2).forall(v => v(0) < v(1)) else true
 
 }
+
 /*========================================================== */
 
 object CollectionExercise04 {
@@ -76,7 +95,7 @@ object CollectionExercise04 {
    * To keep it simple it's ok to use String.split to extract all words of a sentence.
    */
   def calcLengthLongestWord(lines: String*): Int = {
-    error("fix me")
+    lines.flatMap(_.split(" ").map(_.length)).max
   }
 }
 
@@ -88,7 +107,7 @@ object CollectionExercise05 {
    * E.g. Seq(1,2,3) is Seq(2)
    */
   def filterWithFoldLeft(seq: Seq[Int]): Seq[Int] = {
-    error("fix me")
+    seq.foldLeft(Seq.empty[Int])((a, b) => if (b % 2 == 0) a :+ b else a)
   }
 
   /**
@@ -97,7 +116,10 @@ object CollectionExercise05 {
    * E.g: Seq(1,2,3) is Map(0 -> Seq(2), 1 -> Seq(1,3))
    */
   def groupByWithFoldLeft(seq: Seq[Int]): Map[Boolean, Seq[Int]] = {
-    error("fix me")
+    seq.foldLeft(Map[Boolean, Seq[Int]]().withDefaultValue(Seq[Int]()))((map, b) => {
+      val key = b % 2 == 0
+      map + (key -> ( map(key) :+ b ) )
+    })
   }
 }
 

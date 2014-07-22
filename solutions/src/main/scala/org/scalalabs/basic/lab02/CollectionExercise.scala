@@ -1,4 +1,5 @@
 package org.scalalabs.basic.lab02
+
 /**
  * This Lab contains exercises where the usage of
  * higher order collection methods can be rehearsed.
@@ -58,6 +59,7 @@ object CollectionExercise01 {
     lines.map(_ map mapper)
   }
 }
+
 /*========================================================== */
 
 object CollectionExercise02 {
@@ -96,6 +98,7 @@ object CollectionExercise03 {
     if (seq.size > 1) seq.sliding(2).forall(l => l(0) < l(1)) else true
 
 }
+
 /*========================================================== */
 
 object CollectionExercise04 {
@@ -118,6 +121,7 @@ object CollectionExercise05 {
   def filterWithFoldLeft(seq: Seq[Int]): Seq[Int] = {
     seq.foldLeft(Seq.empty[Int])((cum, i) => if (i % 2 == 0) cum :+ i else cum)
   }
+
   /**
    * Group all numbers based on whether they are even or odd using foldLeft.
    * For even use 'true' for odd use 'false'.
@@ -133,7 +137,7 @@ object CollectionExercise05 {
       val key = next % 2 == 0
       map + (key -> (map(key) :+ next))
     }
-    
+
   }
 }
 
