@@ -44,11 +44,11 @@ class ImplicitConversionExercise01Test extends Specification with DeactivatedTim
  "Exercise04" should {
     "have a working time DSL" in {
          skipped("Uncomment and fix me")
-//      import TimeUtils._
-//      println(1 days)
-//      println((1 days) + (2 hours))
-//      (1 days).millis ==== new Duration(24L * 60L * 60L * 1000L).getMillis()
-//      (1.days + 2.hours).millis ==== new Duration(26L * 60L * 60L * 1000L).getMillis()
+      import TimeUtils._
+      println(1 days2)
+      println((1 days) + (2 hours))
+      (1 days).millis ==== new Duration(24L * 60L * 60L * 1000L).getMillis()
+      (1.days + 2.hours).millis ==== new Duration(26L * 60L * 60L * 1000L).getMillis()
     }
  }
 }
